@@ -2,6 +2,7 @@ import httpx
 from fastapi import BackgroundTasks, FastAPI, Request
 import asyncio
 import logging
+import backoff
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -25,8 +26,9 @@ async def inference(request: Request, background_tasks: BackgroundTasks) -> dict
     return {"message": "Received"}
 
 
-async def send(url: str, data: dict[str, str]):
+@backoff.on_exception(backoff.expo, (httpx.RequestError, httpx.HTTPStatusError), max_tries=5)
+async def send_with_retry(url: str, data: dict[str, str]):
     async with httpx.AsyncClient() as client:
         response = await client.post(url, json=data)
         response.raise_for_status()
-        return response
+    return response
