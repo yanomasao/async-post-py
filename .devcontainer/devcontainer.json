@@ -1,83 +1,41 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-docker-compose
 {
-	// For quick reference: https://containers.dev/implementors/json_reference/
-	"name": "Python Docker",
-	"image": "python:3.12-bookworm",
-		//"build": {
-	//	"context": "..",
-	//	"dockerfile": "Dockerfile"
-	//},
+	"name": "Existing Docker Compose (Extend)",
 
-	// 1. Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": []
+	// Update the 'dockerComposeFile' list if you have more compose files or use different names.
+	// The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
+	"dockerComposeFile": [
+		"../compose.yml",
+		"docker-compose.yml"
+	],
 
-	// 2. Use 'mounts' to make a list of local directories available inside the container. More info: https://code.visualstudio.com/remote/advancedcontainers/add-local-file-mount
-	// "mounts": [],
+	// The 'service' property is the name of the service for the container that VS Code should
+	// use. Update this value and .devcontainer/docker-compose.yml to the real service name.
+	"service": "python",
 
-	// 3. Use 'runArgs' to pass arguments to the container. 
-	// run the container with all GPUs
-	//"runArgs": [
-	//	"--gpus",
-	//	"all"
-	//],
+	// The optional 'workspaceFolder' property is the path VS Code should open by default when
+	// connected. This is typically a file mount in .devcontainer/docker-compose.yml
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}"
 
-	// 4. Features to add to the Dev Container. More info: https://containers.dev/implementors/features.
-	"features": {
-		// ZSH without OMZ
-		"ghcr.io/devcontainers/features/common-utils:2": {
-			"installZsh": "true",
-			"configureZshAsDefaultShell": "true",
-			"installOhMyZsh": "false",
-			"installOhMyZshConfig": "false",
-			"username": "vscode",
-			"userUid": "1000",
-			"userGid": "1000",
-			"upgradePackages": "true"
-		},
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
 
-		// Python with Poetry, Ruff, Mypy, MonkeyType and Bandit, installed using pipx
-		"ghcr.io/devcontainers/features/python:1": {
-			"installTools": "true",
-			"toolsToInstall": "poetry,ruff,mypy,MonkeyType,bandit"
-		},
-		// git
-		"ghcr.io/devcontainers/features/git:1": {
-			"version": "os-provided",
-			"ppa": "false"
-		},
-		"ghcr.io/devcontainers/features/docker-in-docker": {}
-	},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
 
-	// 5. Configure tool-specific properties.
-	"customizations": {
-		// Configure properties specific to VS Code.
-		"vscode": {
-			// Set *default* container specific settings.json values on container create.
-			"settings": {
-				"python.defaultInterpreterPath": "/usr/local/bin/python"
-			}
-		}
-	},
+	// Uncomment the next line if you want start specific services in your Docker Compose config.
+	// "runServices": [],
 
-	// 6. Set `remoteUser` to `root` to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
-	"remoteUser": "vscode"
+	// Uncomment the next line if you want to keep your containers running after VS Code shuts down.
+	// "shutdownAction": "none",
 
-	// the following commands are related to container lifecylce. More info: https://containers.dev/implementors/json_reference/#lifecycle-scripts
-	
-	// 7. Use 'initializeCommand' to run commands ON THE HOST before container is created or started.
-	// "initializeCommand": "",
+	// Uncomment the next line to run commands after the container is created.
+	// "postCreateCommand": "cat /etc/os-release",
 
-	// 8. Use 'onCreateCommand' to run commands INSIDE THE CONTAINER after it started for the first time.
-	// "onCreateCommand": "",
-	
-	// 9. Use 'updateContentCommand' to run commands if the root filetree have any changes, during container creation.
-	// "updateContentCommand": "",
+	// Configure tool-specific properties.
+	// "customizations": {},
 
-	// 10. Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "pip3 install --user -r requirements.txt",
-
-	// 11. Use 'postStartCommand' to run a command each time the container starts successfully.
-	// "postStartCommand": "",
-	
-	// 12. Use 'postAttachCommand' to run a command each time a tool attaches to the container successfully. 
-	// "postAttachCommand": "",
+	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "devcontainer"
 }
