@@ -1,27 +1,27 @@
 import asyncio
-from fastapi import Request
-import uvicorn
 import logging
+
 import httpx
+import uvicorn
+from fastapi import FastAPI
 
-url = "http://host.docker.internal:8000/v1/inferences"
+# url = "http://host.docker.internal:8000/v1/inferences"
+url = "http://localhost:8000/v1/inferences"
 
+client_app = FastAPI()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+@client_app.post("/v1/results")
+async def callback(result: dict[str, str]):
+    logger.info(f"Result received: {result}")
 
 
 async def send_request(data: dict[str, str]):
     async with httpx.AsyncClient() as client:
         response = await client.post(url, json=data)
         logger.info(f"Response from server: {response.json()}")
-
-
-client_app = FastAPI()
-
-
-@client_app.post("/v1/results")
-async def callback(result: dict[str, str]):
-    logger.info(f"Result received: {result}")
 
 
 def start_server(host: str, port: int):
@@ -32,7 +32,7 @@ def start_server(host: str, port: int):
 
 
 if __name__ == "__main__":
-    host = "host.docker.internal"
+    host = "localhost"
     port = 8001
 
     start_server(host, port)
